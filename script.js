@@ -6,6 +6,8 @@ const descriptionButton = document.querySelector('button.description')
 const listUl = document.querySelector('ul');
 const addItemButton = document.querySelector('button.addItemButton');
 const addItemInput = document.querySelector('input.addItemInput');
+const lis = listUl.children;
+
 
 function attachListItemButtons(li) {
   let up = document.createElement('button');
@@ -24,14 +26,18 @@ function attachListItemButtons(li) {
   li.appendChild(remove);
 };
 
-listUl.addEventListener('click', (event) => {
-  if(event.target.tagName == 'BUTTON'){
-    if(event.target.className == 'remove'){
+for(let i = 0; i < lis.length; i++){
+  attachListItemButtons(lis[i])
+}
+
+listUl.addEventListener('click', (e) => {
+  if(e.target.tagName == 'BUTTON'){
+    if(e.target.className == 'remove'){
       let li = event.target.parentNode;
       let ul = li.parentNode;
       ul.removeChild(li);
     }
-    if(event.target.className == 'up'){
+    if(e.target.className == 'up'){
       let li = event.target.parentNode;
       let prevLi = li.previousElementSibling;
       let ul = li.parentNode;
@@ -39,7 +45,7 @@ listUl.addEventListener('click', (event) => {
       ul.insertBefore(li, prevLi);
       }
     }
-    if(event.target.className == 'down'){
+    if(e.target.className == 'down'){
       let li = event.target.parentNode;
       let nextLi = li.nextElementSibling;
       let ul = li.parentNode;
@@ -72,7 +78,9 @@ addItemButton.addEventListener('click', () => {
   let ul = document.getElementsByTagName('ul')[0];
   let li = document.createElement('li');
   li.textContent = addItemInput.value;
-  attachListItemButtons(li);
-  ul.appendChild(li);
+    if(li.textContent){
+        attachListItemButtons(li);
+        ul.appendChild(li);
+    }
   addItemInput.value = '';
 });
