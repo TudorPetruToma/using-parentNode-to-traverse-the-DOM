@@ -2,29 +2,45 @@ const toggleList = document.getElementById('toggleList');
 const listDiv = document.querySelector('.list');
 const descriptionP = document.querySelector('p.description');
 const descriptionInput = document.querySelector('input.description');
-const descriptionButton  =document.querySelector('button.description')
+const descriptionButton = document.querySelector('button.description')
 const listUl = document.querySelector('ul');
-const addItemBtn = document.querySelector('button.addItemBtn');
+const addItemButton = document.querySelector('button.addItemButton');
 const addItemInput = document.querySelector('input.addItemInput');
 
+function attachListItemButtons(li) {
+  let up = document.createElement('button');
+  up.className = 'up';
+  up.textContent = 'Up';
+  li.appendChild(up);
 
-listUl.addEventListener('click', (e) => {
-  if(e.target.tagName === 'BUTTON'){
-    if(e.target.className === 'li-remove'){
-      let li = e.target.parentNode;
+  let down = document.createElement('button');
+  down.className = 'down';
+  down.textContent = 'Down';
+  li.appendChild(down);
+
+  let remove = document.createElement('button');
+  remove.className = 'remove';
+  remove.textContent = 'Remove';
+  li.appendChild(remove);
+};
+
+listUl.addEventListener('click', (event) => {
+  if(event.target.tagName == 'BUTTON'){
+    if(event.target.className == 'remove'){
+      let li = event.target.parentNode;
       let ul = li.parentNode;
       ul.removeChild(li);
     }
-    if(e.target.className === 'li-up'){
-      let li = e.target.parentNode;
+    if(event.target.className == 'up'){
+      let li = event.target.parentNode;
       let prevLi = li.previousElementSibling;
       let ul = li.parentNode;
       if(prevLi){
       ul.insertBefore(li, prevLi);
       }
     }
-    if(e.target.className === 'li-down'){
-      let li = e.target.parentNode;
+    if(event.target.className == 'down'){
+      let li = event.target.parentNode;
       let nextLi = li.nextElementSibling;
       let ul = li.parentNode;
       if(nextLi){
@@ -51,12 +67,12 @@ descriptionButton.addEventListener('click', () => {
   descriptionInput.value = '';
 });
 
-addItemBtn.addEventListener('click', () => {
+
+addItemButton.addEventListener('click', () => {
   let ul = document.getElementsByTagName('ul')[0];
   let li = document.createElement('li');
   li.textContent = addItemInput.value;
-    if(li.textContent){
-      ul.appendChild(li);
-   }
+  attachListItemButtons(li);
+  ul.appendChild(li);
   addItemInput.value = '';
 });
